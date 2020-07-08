@@ -1,22 +1,36 @@
-import wx
+from tkinter import *
+from PIL import ImageTk, Image
+from tkinter import filedialog
 
-class Yeems(wx.Frame):
-    def __init__(self):
-        super().__init__(parent=None, title='Yeems')
-        panel = wx.Panel(self)
-        my_sizer = wx.BoxSizer(wx.VERTICAL)
-        my_btn = wx.Button(panel, label='Dab')
-        my_btn.Bind(wx.EVT_BUTTON, self.on_press)
-        my_sizer.Add(my_btn, 0, wx.ALL | wx.CENTER, 5)
-        panel.SetSizer(my_sizer)
-        self.Show()
+root = Tk()
+root.geometry("550x300+300+150")
+root.resizable(width=True, height=True)
 
-    def on_press(self, event):
-        png = wx.Image('../Resources/Untitled.png', wx.BITMAP_TYPE_ANY).ConvertToBitmap()
-        wx.StaticBitmap(self, -1, png, (10, 5), (png.GetWidth(), png.GetHeight()))
+global hairValue
+global imagePath
+
+def choose_left():
+    hairValue-=1
+
+def choose_right():
+    hairValue+=1
+
+def determine_img():
+    hairValue = 1
+    if hairValue == 1:
+        imagePath = "../Resources/Untitled.png"
+    return imagePath
 
 
 if __name__ == '__main__':
-    app = wx.App()
-    frame = Yeems()
-    app.MainLoop()
+    x = determine_img()
+    img = Image.open(x)
+    img = img.resize((250, 250), Image.ANTIALIAS)
+    img = ImageTk.PhotoImage(img)
+    panel = Label(root, image=img)
+    panel.image = img
+    panel.pack()
+
+btn = Button(root, text='Generate', command=determine_img()).pack()
+
+root.mainloop()
