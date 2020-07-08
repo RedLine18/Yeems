@@ -1,22 +1,40 @@
-import wx
+from tkinter import *
+from tkinter import colorchooser
+from PIL import ImageTk,Image
 
-class Yeems(wx.Frame):
-    def __init__(self):
-        super().__init__(parent=None, title='Yeems')
-        panel = wx.Panel(self)
-        my_sizer = wx.BoxSizer(wx.VERTICAL)
-        my_btn = wx.Button(panel, label='Dab')
-        my_btn.Bind(wx.EVT_BUTTON, self.on_press)
-        my_sizer.Add(my_btn, 0, wx.ALL | wx.CENTER, 5)
-        panel.SetSizer(my_sizer)
-        self.Show()
+def change_img_colour(img, colour, pal_size=64):
+    index_img = img.convert('RGBA').convert(mode='P', dither='NONE', colors = pal_size)
+    palette = index_img.getpalette()
+    for i in range(pal_size):
+        i = i * 3
 
-    def on_press(self, event):
-        png = wx.Image('../Resources/Untitled.png', wx.BITMAP_TYPE_ANY).ConvertToBitmap()
-        wx.StaticBitmap(self, -1, png, (10, 5), (png.GetWidth(), png.GetHeight()))
+        r_index = i
+        g_index = i+1
+        b_index = i+2
+
+        palette[r_index] = int(palette[r_index] - (palette[r_index] - colour[0])/2)
+        palette[g_index] = int(palette[g_index] - (palette[g_index] - colour[1])/2)
+        palette[b_index] = int(palette[b_index] - (palette[b_index] - colour[2])/2)
+    index_img.putpalette(palette)
+    return index_img
+
+root = Tk()
+
+img = ImageTk.PhotoImage(Image.open("../Resources/Untitled.png"))
+
+def colour_wolour():
+    global img
+    clr = colorchooser.askcolor(title="color wolour")
+    img = ImageTk.PhotoImage(change_img_colour(Image.open("../Resources/Untitled.png"), clr[0]))
+
+change_colour = Button(root, text="Change colour", command=colour_wolour)
+change_colour.pack()
+
+canvas = Canvas(root, width = 1000, height = 1000)
+canvas.pack()
 
 
-if __name__ == '__main__':
-    app = wx.App()
-    frame = Yeems()
-    app.MainLoop()
+while True:
+    canvas.create_image(20, 20, anchor=NW, image=img)
+    root.update()
+    root.update_idletasks()
