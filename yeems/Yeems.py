@@ -5,30 +5,60 @@ import itertools
 from PIL import ImageTk, Image
 
 win = tk.Tk()
-win.geometry('800x1000')
+win.geometry('800x900')
 win.resizable(0, 0)
 
-canvas = Canvas(win, width = 800, height = 800)
+canvas = Canvas(win, width = 500, height = 500)
 canvas.pack()
 
 img_index = 0
 
-img_paths = ["../Resources/Untitled.png", "../Resources/Human Male 1.png"]
+img_paths = ["../Resources/Untitled.png", "../Resources/Human Male 1.png", "../Resources/yeems1.png", "../Resources/yeems3.jpg", "../Resources/yeems5.png", "../Resources/yeems7.jpg", "../Resources/yeems9.png"]
 
-slot_options = [1,1]
+color = []
+for i in img_paths:
+    color.append([0,0,0])
 
-slots = [["../Resources/Human Male Ranger.jpg", "../Resources/Untitled.png"], ["../Resources/Air Elemental Myrmidon.jpg", "../Resources/Human Male 1.png"]]
+slot_options = [1,1,1,1,1,1,1]
+
+vhair = 0
+vhead_shape = 1
+veyebrows = 2
+veyes = 3
+vnose = 4
+vmouth = 5
+vfacial_acc = 6
+
+slots = [["../Resources/Human Male Ranger.jpg", "../Resources/Untitled.png"], ["../Resources/Air Elemental Myrmidon.jpg", "../Resources/Human Male 1.png"], 
+["../Resources/yeems1.png", "../Resources/yeems2.jpg"], ["../Resources/yeems3.jpg", "../Resources/yeems4.jpg"], ["../Resources/yeems5.png", "../Resources/yeems6.jpg"],
+["../Resources/yeems7.jpg", "../Resources/yeems8.jpg"], ["../Resources/yeems9.png", "../Resources/yeems10.jpg"]]
 
 imgs = []
 for i in img_paths:
     imgs.append(ImageTk.PhotoImage(Image.open(i)))
 
-def next_img():
+def hair():
     global img_index
-    img_index = img_index + 1
-    if img_index > len(img_paths)-1:
-        img_index = 0
-    img = ImageTk.PhotoImage(Image.open(img_paths[img_index]))
+    img_index = vhair
+def head_shape():
+    global img_index
+    img_index = vhead_shape
+def eyebrows():
+    global img_index
+    img_index = veyebrows
+def eyes():
+    global img_index
+    img_index = veyes
+def nose():
+    global img_index
+    img_index = vnose
+def mouth():
+    global img_index
+    img_index = vmouth
+def facial_acc():
+    global img_index
+    img_index = vfacial_acc
+
 
 def next_option():
     global slot_options
@@ -37,6 +67,16 @@ def next_option():
         slot_options[img_index] = 0
     img_paths[img_index] = slots[img_index][slot_options[img_index]]
     imgs[img_index] = ImageTk.PhotoImage(Image.open(img_paths[img_index]))
+
+def prev_option():
+    global slot_options
+    slot_options[img_index] = slot_options[img_index] - 1
+    if slot_options[img_index] < 0:
+        slot_options[img_index] = len(slots[img_index])-1
+    img_paths[img_index] = slots[img_index][slot_options[img_index]]
+    imgs[img_index] = ImageTk.PhotoImage(Image.open(img_paths[img_index]))
+
+    imgs[img_index] = ImageTk.PhotoImage(change_img_colour(Image.open(img_paths[img_index]), color[img_index]))
 
 def change_img_colour(img, colour, pal_size=64):
     index_img = img.convert('RGBA').convert(mode='P', dither='NONE', colors=pal_size)
@@ -57,13 +97,20 @@ def change_img_colour(img, colour, pal_size=64):
 def colour_wolour():
     clr = colorchooser.askcolor(title="color wolour")
     imgs[img_index] = ImageTk.PhotoImage(change_img_colour(Image.open(img_paths[img_index]), clr[0]))
+    color[img_index] = clr[0]
 
 change_colour = Button(text="Change colour", command=colour_wolour)
 change_colour.pack()
-nextImageButton = tk.Button(text='Next image', command=next_img).place(x=10, y=10)
-changeSlotButton = tk.Button(text='Next option', command=next_option).place(x=10, y=50)
 
-next_img()
+changeSlotButton = tk.Button(text='Next option', command=next_option).place(x=10, y=50)
+prevSlotButton = tk.Button(text="Prev option", command=prev_option).place(x=685, y=50)
+hairButton = tk.Button(text="Hair", command=hair).place(x=10, y=100)
+headButton = tk.Button(text="Head", command=head_shape).place(x=10, y=150)
+eyebrowButton = tk.Button(text="Eyebrow", command=eyebrows).place(x=10, y=200)
+eyesButton = tk.Button(text="Eyes", command=eyes).place(x=10, y=250)
+noseButton = tk.Button(text="Nose", command=nose).place(x=10, y=300)
+mouthButton = tk.Button(text="Mouth", command=mouth).place(x=10, y=350)
+facialaccButton = tk.Button(text="Facial Accessories", command=facial_acc).place(x=10, y=400)
 next_option()
 
 while True:
