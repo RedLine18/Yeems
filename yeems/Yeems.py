@@ -56,7 +56,6 @@ def change_img_colour(img, colour, pal_size=64):
 
 def colour_wolour():
     clr = colorchooser.askcolor(title="color wolour")
-    print(img_paths)
     imgs[img_index] = ImageTk.PhotoImage(change_img_colour(Image.open(img_paths[img_index]), clr[0]))
 
 change_colour = Button(text="Change colour", command=colour_wolour)
