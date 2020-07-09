@@ -14,6 +14,11 @@ canvas.pack()
 img_index = 0
 
 img_paths = ["../Resources/Untitled.png", "../Resources/Human Male 1.png"]
+
+slot_options = [1,1]
+
+slots = [["../Resources/Human Male Ranger.jpg", "../Resources/Untitled.png"], ["../Resources/Air Elemental Myrmidon.jpg", "../Resources/Human Male 1.png"]]
+
 imgs = []
 for i in img_paths:
     imgs.append(ImageTk.PhotoImage(Image.open(i)))
@@ -24,6 +29,14 @@ def next_img():
     if img_index > len(img_paths)-1:
         img_index = 0
     img = ImageTk.PhotoImage(Image.open(img_paths[img_index]))
+
+def next_option():
+    global slot_options
+    slot_options[img_index] = slot_options[img_index] + 1
+    if slot_options[img_index] > len(slots[img_index])-1:
+        slot_options[img_index] = 0
+    img_paths[img_index] = slots[img_index][slot_options[img_index]]
+    imgs[img_index] = ImageTk.PhotoImage(Image.open(img_paths[img_index]))
 
 def change_img_colour(img, colour, pal_size=64):
     index_img = img.convert('RGBA').convert(mode='P', dither='NONE', colors=pal_size)
@@ -43,13 +56,16 @@ def change_img_colour(img, colour, pal_size=64):
 
 def colour_wolour():
     clr = colorchooser.askcolor(title="color wolour")
+    print(img_paths)
     imgs[img_index] = ImageTk.PhotoImage(change_img_colour(Image.open(img_paths[img_index]), clr[0]))
 
 change_colour = Button(text="Change colour", command=colour_wolour)
 change_colour.pack()
 nextImageButton = tk.Button(text='Next image', command=next_img).place(x=10, y=10)
+changeSlotButton = tk.Button(text='Next option', command=next_option).place(x=10, y=50)
 
 next_img()
+next_option()
 
 while True:
     for i in imgs:
