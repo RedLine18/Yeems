@@ -26,6 +26,7 @@ def next_img():
     panel.img = img
     panel['image'] = img
 
+
 def change_img_colour(img, colour, pal_size=64):
     index_img = img.convert('RGBA').convert(mode='P', dither='NONE', colors=pal_size)
     palette = index_img.getpalette()
@@ -42,21 +43,16 @@ def change_img_colour(img, colour, pal_size=64):
     index_img.putpalette(palette)
     return index_img
 
+
 def colour_wolour():
     global img
     clr = colorchooser.askcolor(title="color wolour")
     img = ImageTk.PhotoImage(change_img_colour(Image.open(testimages), clr[0]))
 
+
 change_colour = Button(text="Change colour", command=colour_wolour)
 change_colour.pack()
 nextImageButton = tk.Button(text='Next image', command=next_img).place(x=10, y=10)
 
-
-
 next_img()
 win.mainloop()
-
-
-
-
-
