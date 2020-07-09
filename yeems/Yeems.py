@@ -8,7 +8,7 @@ win = tk.Tk()
 win.geometry('800x1000')
 win.resizable(0, 0)
 
-canvas = Canvas(win, width = 800, height = 800)
+canvas = Canvas(win, width=800, height=800)
 canvas.pack()
 
 img_index = 0
@@ -18,12 +18,14 @@ imgs = []
 for i in img_paths:
     imgs.append(ImageTk.PhotoImage(Image.open(i)))
 
+
 def next_img():
     global img_index
     img_index = img_index + 1
-    if img_index > len(img_paths)-1:
+    if img_index > len(img_paths) - 1:
         img_index = 0
     img = ImageTk.PhotoImage(Image.open(img_paths[img_index]))
+
 
 def change_img_colour(img, colour, pal_size=64):
     index_img = img.convert('RGBA').convert(mode='P', dither='NONE', colors=pal_size)
@@ -41,9 +43,11 @@ def change_img_colour(img, colour, pal_size=64):
     index_img.putpalette(palette)
     return index_img
 
+
 def colour_wolour():
     clr = colorchooser.askcolor(title="color wolour")
     imgs[img_index] = ImageTk.PhotoImage(change_img_colour(Image.open(img_paths[img_index]), clr[0]))
+
 
 change_colour = Button(text="Change colour", command=colour_wolour)
 change_colour.pack()
