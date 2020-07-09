@@ -8,8 +8,8 @@ win = tk.Tk()
 win.geometry('800x1000')
 win.resizable(0, 0)
 
-panel = tk.Label(win)
-panel.pack()
+canvas = Canvas(win, width = 800, height = 800)
+canvas.pack()
 
 img_index = 0
 
@@ -24,7 +24,6 @@ def next_img():
     if img_index > len(img_paths)-1:
         img_index = 0
     img = ImageTk.PhotoImage(Image.open(img_paths[img_index]))
-    panel['image'] = imgs[img_index]
 
 def change_img_colour(img, colour, pal_size=64):
     index_img = img.convert('RGBA').convert(mode='P', dither='NONE', colors=pal_size)
@@ -45,7 +44,6 @@ def change_img_colour(img, colour, pal_size=64):
 def colour_wolour():
     clr = colorchooser.askcolor(title="color wolour")
     imgs[img_index] = ImageTk.PhotoImage(change_img_colour(Image.open(img_paths[img_index]), clr[0]))
-    panel['image'] = imgs[img_index]
 
 change_colour = Button(text="Change colour", command=colour_wolour)
 change_colour.pack()
@@ -54,5 +52,8 @@ nextImageButton = tk.Button(text='Next image', command=next_img).place(x=10, y=1
 next_img()
 
 while True:
+    for i in imgs:
+        canvas.create_image(50, 100, anchor=NW, image=i)
+
     win.update()
     win.update_idletasks()
