@@ -3,6 +3,17 @@ from tkinter import *
 from tkinter import colorchooser
 import itertools
 from PIL import ImageTk, Image
+import numpy as np
+
+def change_img_colour(img, colour):
+    img_n = img.convert('RGBA')
+    width, height = img_n.size
+    for x in range(width):
+        for y in range(height):
+            current_colour = img_n.getpixel((x,y))
+            new_colour = (int(current_colour[0] - (current_colour[0] - colour[0]/2)),int(current_colour[1] - (current_colour[1] - colour[1]/2)),int(current_colour[2] - (current_colour[2] - colour[2]/2)),current_colour[0])
+            img_n.putpixel((x,y), new_colour)
+    return img_n
 
 win = tk.Tk()
 win.geometry('800x900')
@@ -36,7 +47,8 @@ slots = [["../Resources/hair1.png"], ["../Resources/base1.png"],
 
 imgs = []
 for i in img_paths:
-    imgs.append(ImageTk.PhotoImage(Image.open(i)))
+    imgs.append(ImageTk.PhotoImage(Image.open(i).convert('RGBA')))
+
 
 
 def hair():
@@ -94,23 +106,6 @@ def prev_option():
     imgs[img_index] = ImageTk.PhotoImage(change_img_colour(Image.open(img_paths[img_index]), color[img_index]))
 
 
-def change_img_colour(img, colour, pal_size=64):
-    index_img = img.convert('RGBA').convert(mode='P', dither='NONE', colors=pal_size)
-    palette = index_img.getpalette()
-    for i in range(pal_size):
-        i = i * 3
-
-        r_index = i
-        g_index = i + 1
-        b_index = i + 2
-
-        palette[r_index] = int(palette[r_index] - (palette[r_index] - colour[0]) / 2)
-        palette[g_index] = int(palette[g_index] - (palette[g_index] - colour[1]) / 2)
-        palette[b_index] = int(palette[b_index] - (palette[b_index] - colour[2]) / 2)
-    index_img.putpalette(palette)
-    return index_img
-
-
 def colour_wolour():
     clr = colorchooser.askcolor(title="color wolour")
     imgs[img_index] = ImageTk.PhotoImage(change_img_colour(Image.open(img_paths[img_index]), clr[0]))
@@ -133,7 +128,6 @@ next_option()
 
 while True:
     for i in imgs:
-        
         canvas.create_image(50, 100, anchor=NW, image=i)
 
     win.update()
