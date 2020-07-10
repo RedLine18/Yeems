@@ -133,8 +133,7 @@ next_option()
 
 while True:
     for i in imgs:
-        im = Image.open(i)
-
+        
         canvas.create_image(50, 100, anchor=NW, image=i)
 
     win.update()
