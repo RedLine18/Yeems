@@ -1,25 +1,27 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import colorchooser
-import itertools
 from PIL import ImageTk, Image
-import numpy as np
+
 
 def change_img_colour(img, colour):
     img_n = img.convert('RGBA')
     width, height = img_n.size
     for x in range(width):
         for y in range(height):
-            current_colour = img_n.getpixel((x,y))
-            new_colour = (int(current_colour[0] - (current_colour[0] - colour[0]/2)),int(current_colour[1] - (current_colour[1] - colour[1]/2)),int(current_colour[2] - (current_colour[2] - colour[2]/2)),current_colour[0])
-            img_n.putpixel((x,y), new_colour)
+            current_colour = img_n.getpixel((x, y))
+            new_colour = (int(current_colour[0] - (current_colour[0] - colour[0] / 2)),
+                          int(current_colour[1] - (current_colour[1] - colour[1] / 2)),
+                          int(current_colour[2] - (current_colour[2] - colour[2] / 2)), current_colour[0])
+            img_n.putpixel((x, y), new_colour)
     return img_n
+
 
 win = tk.Tk()
 win.geometry('800x900')
 win.resizable(0, 0)
 
-canvas = Canvas(win, width=500, height=500)
+canvas = Canvas(win, width=666, height=666)
 canvas.pack()
 
 img_index = 0
@@ -48,7 +50,6 @@ slots = [["../Resources/hair1.png"], ["../Resources/base1.png"],
 imgs = []
 for i in img_paths:
     imgs.append(ImageTk.PhotoImage(Image.open(i).convert('RGBA')))
-
 
 
 def hair():
