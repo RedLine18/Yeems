@@ -26,7 +26,7 @@ canvas.pack()
 
 img_index = 0
 
-img_paths = ["../Resources/hair1.png", "../Resources/base1.png", "../Resources/eyebrows1.png", "../Resources/eyes1.png",
+img_paths = ["../Resources/base1.png", "../Resources/hair1.png", "../Resources/eyebrows1.png", "../Resources/eyes1.png",
              "../Resources/nose1.png", "../Resources/mouth1.png"]
 
 color = []
@@ -35,15 +35,15 @@ for i in img_paths:
 
 slot_options = [1, 1, 1, 1, 1, 1, 1]
 
-vhair = 0
-vhead_shape = 1
+vhead_shape = 0
+vhair = 1
 veyebrows = 2
 veyes = 3
 vnose = 4
 vmouth = 5
 vfacial_acc = 6
 
-slots = [["../Resources/hair1.png"], ["../Resources/base1.png"],
+slots = [["../Resources/base1.png"], ["../Resources/hair1.png"],
          ["../Resources/eyebrows1.png"], ["../Resources/eyes1.png"], ["../Resources/nose1.png"],
          ["../Resources/mouth1.png"]]
 
