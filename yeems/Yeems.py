@@ -20,12 +20,12 @@ win = tk.Tk()
 win.geometry('800x900')
 win.resizable(0, 0)
 
-canvas = Canvas(win, width=666, height=666)
+canvas = Canvas(win, width=512, height=512)
 canvas.pack()
 
 img_index = 0
 
-img_paths = ["../Resources/base1.png",  "../Resources/eyebrows1.png","../Resources/eyes1.png", "../Resources/nose1.png",
+img_paths = ["../Resources/base1.png", "../Resources/eyebrows1.png", "../Resources/eyes1.png", "../Resources/nose1.png",
              "../Resources/mouth1.png", "../Resources/hair1.png"]
 
 color = []
@@ -43,7 +43,8 @@ vhair = 5
 vfacial_acc = 6
 
 slots = [["../Resources/base1.png", "../Resources/base2.png"],
-         ["../Resources/eyebrows1.png"], ["../Resources/eyes1.png", "../Resources/eyes2.png"], ["../Resources/nose1.png", "../Resources/nose2.png"],
+         ["../Resources/eyebrows1.png"], ["../Resources/eyes1.png", "../Resources/eyes2.png"],
+         ["../Resources/nose1.png", "../Resources/nose2.png"],
          ["../Resources/mouth1.png", "../Resources/mouth2.png"], ["../Resources/hair1.png", "../Resources/hair2.png"]]
 
 imgs = []
@@ -125,7 +126,7 @@ facialaccButton = tk.Button(text="Facial Accessories", command=facial_acc).place
 
 while True:
     for i in imgs:
-        canvas.create_image(50, 100, anchor=NW, image=i)
+        canvas.create_image(0, 0, anchor=NW, image=i)
 
     win.update()
     win.update_idletasks()
