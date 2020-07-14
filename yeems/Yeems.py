@@ -5,16 +5,15 @@ from PIL import ImageTk, Image
 
 
 def change_img_colour(img, colour):
-    img_n = img.convert('RGBA')
-    width, height = img_n.size
+    width, height = img.size
     for x in range(width):
         for y in range(height):
-            current_colour = img_n.getpixel((x, y))
+            current_colour = img.getpixel((x, y))
             new_colour = (int(current_colour[0] - (current_colour[0] - colour[0] / 2)),
                           int(current_colour[1] - (current_colour[1] - colour[1] / 2)),
                           int(current_colour[2] - (current_colour[2] - colour[2] / 2)), current_colour[0])
-            img_n.putpixel((x, y), new_colour)
-    return img_n
+            img.putpixel((x, y), new_colour)
+    return img
 
 
 win = tk.Tk()
@@ -33,7 +32,7 @@ color = []
 for i in img_paths:
     color.append([0, 0, 0])
 
-slot_options = [1, 1, 1, 1, 1, 1, 1]
+slot_options = [0, 0, 0, 0, 0, 0, 0]
 
 vhead_shape = 0
 veyebrows = 1
@@ -93,7 +92,7 @@ def next_option():
     if slot_options[img_index] > len(slots[img_index]) - 1:
         slot_options[img_index] = 0
     img_paths[img_index] = slots[img_index][slot_options[img_index]]
-    imgs[img_index] = ImageTk.PhotoImage(Image.open(img_paths[img_index]))
+    imgs[img_index] = ImageTk.PhotoImage(Image.open(img_paths[img_index]).convert('RGBA'))
 
 
 def prev_option():
@@ -102,9 +101,7 @@ def prev_option():
     if slot_options[img_index] < 0:
         slot_options[img_index] = len(slots[img_index]) - 1
     img_paths[img_index] = slots[img_index][slot_options[img_index]]
-    imgs[img_index] = ImageTk.PhotoImage(Image.open(img_paths[img_index]))
-
-    imgs[img_index] = ImageTk.PhotoImage(change_img_colour(Image.open(img_paths[img_index]), color[img_index]))
+    imgs[img_index] = ImageTk.PhotoImage(Image.open(img_paths[img_index]).convert('RGBA'))
 
 
 def colour_wolour():
@@ -125,7 +122,6 @@ eyesButton = tk.Button(text="Eyes", command=eyes).place(x=10, y=250)
 noseButton = tk.Button(text="Nose", command=nose).place(x=10, y=300)
 mouthButton = tk.Button(text="Mouth", command=mouth).place(x=10, y=350)
 facialaccButton = tk.Button(text="Facial Accessories", command=facial_acc).place(x=10, y=400)
-next_option()
 
 while True:
     for i in imgs:
